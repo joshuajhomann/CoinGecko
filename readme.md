@@ -2,4 +2,4 @@
 
 Example of the new CharView in SwiftUI
 
-[preview](![image](./preview.gif "Preview"))
+![image](./preview.gif "Preview")
