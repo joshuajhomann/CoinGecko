@@ -8,19 +8,22 @@
 import SwiftUI
 
 @MainActor
-final class CoinViewModel: ObservableObject, WritableByIsolatedKeyPath {
+final class CoinViewModel: ObservableObject {
     @Published var searchTerm = ""
     @Published private(set) var coins: [Coin] = []
-    nonisolated func callAsFunction(coinService: CoinService) async {
-        var taskHandle: Task<[Coin], Error>?
-        for await term in await $searchTerm.values.dropFirst() {
+    private var taskHandle: Task<[Coin], Error>?
+    deinit {
+        taskHandle?.cancel()
+    }
+    func callAsFunction(coinService: CoinService) async {
+        for await term in $searchTerm.values.dropFirst() {
             taskHandle?.cancel()
-            let task = Task {
+            let task = Task.detached {
                 try await coinService.coins(named: term)
             }
             taskHandle = task
             do {
-                await set(\.coins, value: try await task.value)
+                coins = try await task.value
             } catch {
                 print(error)
             }
@@ -64,4 +67,3 @@ struct CoinView: View {
         .task { await viewModel(coinService: coinService) }
     }
 }
-

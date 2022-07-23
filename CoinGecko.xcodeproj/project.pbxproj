@@ -17,7 +17,6 @@
 		03232AD228832DC3004F29EE /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03232AD128832DC3004F29EE /* Model.swift */; };
 		03232AD428832FD7004F29EE /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03232AD328832FD7004F29EE /* CustomError.swift */; };
 		03232AD628833074004F29EE /* CoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03232AD528833074004F29EE /* CoinService.swift */; };
-		03232AD828833649004F29EE /* WritableByIsolatedKeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03232AD728833649004F29EE /* WritableByIsolatedKeyPath.swift */; };
 		03232ADA2883375B004F29EE /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03232AD92883375B004F29EE /* ChartView.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +52,6 @@
 		03232AD128832DC3004F29EE /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		03232AD328832FD7004F29EE /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		03232AD528833074004F29EE /* CoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinService.swift; sourceTree = "<group>"; };
-		03232AD728833649004F29EE /* WritableByIsolatedKeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritableByIsolatedKeyPath.swift; sourceTree = "<group>"; };
 		03232AD92883375B004F29EE /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,7 +109,6 @@
 				03232AA628832D03004F29EE /* CoinGeckoApp.swift */,
 				03232AA828832D03004F29EE /* CoinView.swift */,
 				03232AD92883375B004F29EE /* ChartView.swift */,
-				03232AD728833649004F29EE /* WritableByIsolatedKeyPath.swift */,
 				03232AAA28832D05004F29EE /* Assets.xcassets */,
 				03232AAC28832D05004F29EE /* CoinGecko.entitlements */,
 				03232AAD28832D05004F29EE /* Preview Content */,
@@ -274,7 +271,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03232AD828833649004F29EE /* WritableByIsolatedKeyPath.swift in Sources */,
 				03232AD228832DC3004F29EE /* Model.swift in Sources */,
 				03232AD428832FD7004F29EE /* CustomError.swift in Sources */,
 				03232ADA2883375B004F29EE /* ChartView.swift in Sources */,

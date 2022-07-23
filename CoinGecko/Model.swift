@@ -34,8 +34,8 @@ struct RawHistory: Codable {
     }
 }
 
-struct History {
-    struct DatedValue: Identifiable {
+struct History: Equatable {
+    struct DatedValue: Identifiable, Equatable {
         var id: UUID
         var date: Date
         var value: Decimal

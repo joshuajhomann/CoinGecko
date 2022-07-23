@@ -9,18 +9,17 @@ import Charts
 import SwiftUI
 
 @MainActor
-final class ChartViewModel: ObservableObject, WritableByIsolatedKeyPath {
+final class ChartViewModel: ObservableObject {
     @Published private(set) var history: History?
-    nonisolated func callAsFunction(coin: Coin, coinService: CoinService) async {
+    func callAsFunction(coin: Coin, coinService: CoinService) async {
         do {
-            let history = try await coinService.history(for: coin)
-            await set(\.history, value: history)
+            async let history = try await coinService.history(for: coin)
+            self.history = try await history
         } catch {
             print(error)
         }
     }
 }
-
 
 struct ChartView: View {
     @StateObject private var viewModel = ChartViewModel()
@@ -61,6 +60,35 @@ struct ChartView: View {
             }
         }
         .task { await viewModel(coin: coin, coinService: coinService) }
+        .onChange(of: days) { _ in cachePDF(for: viewModel.history) }
+        .onChange(of: viewModel.history) { history in cachePDF(for: history) }
+    }
+
+    private func cachePDF(for history: History?) {
+        guard let history else { return }
+        let pageSize = CGSize(width: 72 * 8.5, height: 72 * 11)
+        let chartSize = CGSize(width: pageSize.width - 36, height: pageSize.height - 72)
+        let url = URL.documentsDirectory.appending(component: "\(coin.name).pdf")
+        let views = [
+            AnyView(priceChart(for: history.prices.prefix(days))),
+            AnyView(volumeChart(for: history.totalVolumes.prefix(days))),
+            AnyView(marketCapChart(for: history.marketCaps.prefix(days)))
+        ]
+        try? UIGraphicsPDFRenderer(bounds: CGRect(origin: .zero, size: pageSize)).pdfData { context in
+            for view in views {
+                let renderer = ImageRenderer(content: view.frame(width: chartSize.width, height: chartSize.height))
+                context.beginPage()
+                renderer.render { size, renderIn in
+                    context.cgContext.concatenate(.identity
+                        .scaledBy(x: 1, y: -1)
+                        .translatedBy(x: 0 + 18, y: -pageSize.height + 36)
+                    )
+                    renderIn(context.cgContext)
+                }
+            }
+        }
+        .write(to: url)
+        pdfURL = url
     }
 
     @ViewBuilder
@@ -81,7 +109,7 @@ struct ChartView: View {
     }
     
     @ViewBuilder
-    private func volumeChart(for volumes: some RandomAccessCollection <History.DatedValue>) -> some View {
+    private func volumeChart(for volumes: some RandomAccessCollection<History.DatedValue>) -> some View {
         Text("\(coin.name) Volume")
         Chart(volumes) { point in
             BarMark(
