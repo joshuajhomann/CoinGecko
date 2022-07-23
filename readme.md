@@ -5,4 +5,4 @@ Example of the new CharView in SwiftUI.  Shows:
 2. `ShareLink`
 3. Rendering pdf from SwiftUI Views with `ImageRenderer` and `UIGraphicsPDFRenderer`
 
-[preview](![image](./preview.gif "Preview"))
+![image](./preview.png "Preview")
